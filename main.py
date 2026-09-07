@@ -11,3 +11,5 @@ from utils import password_utils, jwt_utils
 
 token = jwt_utils.create_token(42, "Admin")
 print(token)
+
+print(jwt_utils.verify_token(token))

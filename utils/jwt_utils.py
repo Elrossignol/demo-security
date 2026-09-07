@@ -13,11 +13,11 @@ def create_token(id: int, role: str) -> str:
         'iat': today.timestamp(),
         'exp': timedelta(minutes=15) + today,
         'role': role,
-        'sub': id
-    }, key=os.getenv('JWT_SECRET'))
+        'sub': str(id)
+    }, key=os.getenv('JWT_SECRET'), algorithm='HS256')
 
 def verify_token(token: str) -> dict:
     try:
-        return jwt.decode(token, key=os.getenv('JWT_SECRET'))
+        return jwt.decode(token, key=os.getenv('JWT_SECRET'), algorithms=['HS256'])
     except jwt.exceptions.DecodeError as e:
         raise ValueError(e) from e
