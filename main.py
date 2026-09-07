@@ -1,15 +1,12 @@
-from utils import password_utils, jwt_utils
+import uvicorn
+from fastapi import FastAPI
 
-# result = password_utils.hash('maman')
-# result2 = password_utils.hash('maman')
+from controllers import auth_controller
 
-# print(result)
-# print(result2)
+app = FastAPI()
 
-# print(password_utils.verify_password('test', result)) 
-# print(password_utils.verify_password('maman', result)) 
+app.include_router(auth_controller.router)
 
-token = jwt_utils.create_token(42, "Admin")
-print(token)
 
-print(jwt_utils.verify_token(token))
+if __name__ == '__main__':
+    uvicorn.run('main:app', reload=True)
