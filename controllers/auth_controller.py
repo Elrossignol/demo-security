@@ -54,7 +54,6 @@ def need_authentication(
     # parametre a ajouter sur les routes qui ont besoins d'une authentification
     claims: Annotated[dict|None, Depends(jwt_utils.verify_token)]
 ):
-    print(claims)
     return claims
 
 @router.get('/need_role_admin')
@@ -62,10 +61,5 @@ def need_role_admin(
     # parametre a ajouter sur les routes qui ont besoins d'une authentification
     claims: Annotated[dict|None, Depends(jwt_utils.RoleGuard(['admin']))]
 ):
-    print(claims)
     return claims
 
-
-@router.get('/test')
-def test():
-    return 42 
