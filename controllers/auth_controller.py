@@ -2,10 +2,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from dto.login_dto import LoginDTO
 from dto.register_dto import RegisterDTO
 from models.account import Account
 from models.db import get_db
@@ -28,12 +28,12 @@ async def register(
         session.add(account)
         session.flush()
     except:
-        print('-----------------------------------')
         raise HTTPException(status_code=400, detail='Impossible de sauver cet account (vérifier vos données)')
 
 @router.post('/login')
 def login(
-    dto: Annotated[LoginDTO, Body()], 
+    # permet de récupérer les donnnées du formulaire
+    dto: Annotated[OAuth2PasswordRequestForm, Depends()], 
     session: Annotated[Session, Depends(get_db)]
 ):
     account = session.execute(
@@ -48,4 +48,24 @@ def login(
     return {
         'access_token': jwt_utils.create_token(account.id, account.role)
     }
-    
+
+@router.get('/need_authentication')
+def need_authentication(
+    # parametre a ajouter sur les routes qui ont besoins d'une authentification
+    claims: Annotated[dict|None, Depends(jwt_utils.verify_token)]
+):
+    print(claims)
+    return claims
+
+@router.get('/need_role_admin')
+def need_role_admin(
+    # parametre a ajouter sur les routes qui ont besoins d'une authentification
+    claims: Annotated[dict|None, Depends(jwt_utils.RoleGuard(['admin']))]
+):
+    print(claims)
+    return claims
+
+
+@router.get('/test')
+def test():
+    return 42 
