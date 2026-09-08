@@ -6,7 +6,11 @@ from controllers import auth_controller
 
 app = FastAPI()
 
-app.add_middleware(CORSMiddleware, allow_origins=['*'])
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins=['*'],
+    allow_methods=['*']
+)
 
 app.include_router(auth_controller.router)
 
