@@ -20,7 +20,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     steps:
       - name: step 1
         run: echo "This works great"
@@ -31,7 +31,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
           cache: 'pip'
       - name: Install dependencies
         run: |
