@@ -47,7 +47,7 @@ jobs:
           bandit -r .
       - name: Set Environment Variables
         run: |
-          echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> $GITHUB_ENV
+          echo "DB_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> $GITHUB_ENV
       - name: Run Alembic Migrations
         run: |
           alembic upgrade head
