@@ -18,4 +18,5 @@ app.include_router(auth_controller.router)
 
 
 if __name__ == '__main__':
+    print('test')
     uvicorn.run('main:app', reload=True)
